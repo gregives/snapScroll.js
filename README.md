@@ -30,21 +30,39 @@ For example,
 
 ### HTML Structure
 
-All you need to do is add the `data-scrollPoint` attribute to the elements you wish to scroll to. For example,
+All you need to do is add the `data-snap-point` attribute to the elements you wish to scroll to. For example,
 
 ```html
 <body>
-  <div data-scrollPoint></div>
+  <div data-scroll-point></div>
   <section>
-    <article data-scrollPoint></article>
-    <article data-scrollPoint>
+    <article data-scroll-point></article>
+    <article data-scroll-point>
       <p></p>
     </article>
     <article></article>
-    <article data-scrollPoint></article>
+    <article data-scroll-point></article>
   </section>
   ...
 ```
+
+It is also possible to scroll to points in a different order than in the markup. Just set the `ordered` option to `false` and set the `data-snap-point` attribute to the point index:
+
+```html
+<body>
+  <div data-scroll-point="1"></div>
+  <section>
+    <article data-scroll-point="4"></article>
+    <article data-scroll-point="2">
+      <p></p>
+    </article>
+    <article></article>
+    <article data-scroll-point="3"></article>
+  </section>
+  ...
+```
+
+**Note**: the indices can start at any value, and do not need to be consecutive values. **Be cautious** when using unordered snap points, the user experience may be terrible.
 
 ### Initialisation
 
@@ -66,6 +84,8 @@ $(document).ready(function() {
     duration: 600,
     easing: 'swing',
     element: 'html',
+    ordered: true,
+    scrollBar: true,
 
     // Callbacks
     onLeave: function(currentPoint, targetPoint) {},
@@ -89,6 +109,10 @@ $(document).ready(function() {
 
 * `element`: (default `'html'`) The element to scroll; usually the whole page.
 
+* `ordered`: (default `true`) Defines if the snap points should be scrolled to in their markup order, or if a separate order has been specified.
+
+* `scrollBar`: (default `true`) When set to `false`, the scroll bar of the element will be hidden.
+
 ## Callbacks
 
 * `onLeave(currentPoint, nextPoint)`: Called when leaving a scroll point i.e. when the animation is starting.
@@ -106,11 +130,17 @@ $(document).ready(function() {
 All methods should be called on the SnapScroll object.
 
 * `scrollPrev()`: Scroll to the previous scroll point.
+
 * `scrollNext()`: Scroll to the next scroll point.
+
 * `scrollToPoint(targetPoint)`: Scroll to the given scroll point.
+
     * `targetPoint`: Index of the target scroll point.
+
 * `currentPoint()`: Gets the index of the current (nearest) scroll point.
+
 * `enable()`: Enable scroll points within element (called automatically when SnapScroll object is created).
+
 * `disable()`: Disable scroll points within element.
 
 For example,

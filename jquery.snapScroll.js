@@ -7,15 +7,37 @@ function SnapScroll(options) {
     duration: 600,
     easing: 'swing',
     element: 'html',
+    ordered: true,
+    scrollBar: true,
     onLeave: function(currentPoint, nextPoint) {},
     onArrive: function(prevPoint, currentPoint) {}
   }, options);
 
   // Enable scrolling of element.
-  $(options.element).css('overflow-y', 'scroll');
+  if (options.scrollBar) {
+    $(options.element).css('overflow-y', 'scroll');
+  } else {
+    // Hide scroll bar.
+    $(options.element).css('overflow-y', 'hidden');
+  }
 
   // Array of snap points within element.
-  var snapPoints = $(options.element).find('[data-snapPoint]');
+  var snapPoints = $(options.element).find('[data-snap-point]');
+
+  // Sort snap points by attribute.
+  if (!options.ordered) {
+    function compare(a, b) {
+      var aVal = $(a).data('snapPoint');
+      var bVal = $(b).data('snapPoint');
+      if (aVal < bVal)
+        return -1;
+      if (aVal > bVal)
+        return 1;
+      return 0;
+    }
+
+    snapPoints.sort(compare);
+  }
 
   // Flag to avoid scrolling whilst already scrolling.
   var scrolling = false;

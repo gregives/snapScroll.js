@@ -14,19 +14,19 @@
   </head>
   <body>
     <main>
-      <div class="height-100" data-snapPoint>
+      <div class="height-100" data-snap-point>
         An example of snapScroll.js, using a bounce animation.
       </div>
-      <div class="height-30" data-snapPoint>
+      <div class="height-30" data-snap-point>
         It works on elements of any height...
       </div>
-      <div class="height-30 width-50" data-snapPoint>
+      <div class="height-30 width-50" data-snap-point>
         ...or width.
       </div>
-      <div class="height-40" data-snapPoint>
-        Centering the elements you want.
+      <div class="height-40" data-snap-point>
+        Snapping to your chosen elements.
       </div>
-      <div class="height-80" data-snapPoint>
+      <div class="height-80" data-snap-point>
         Easy peasy!
       </div>
     </main>
@@ -47,6 +47,8 @@
         duration: 900,
         easing: 'easeOutBounce',
         element: 'main',
+        ordered: true,
+        scrollBar: false,
         onLeave: function(currentPoint, nextPoint) {
           console.log("Leaving point " + currentPoint + ", going to point " + nextPoint + ".");
         },
