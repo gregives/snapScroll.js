@@ -2,6 +2,8 @@
 
 An easy to use library to snap to elements when scrolling a website.
 
+<img src="./example/images/preview.gif" width="900">
+
 ## Usage
 
 You will need to include:
