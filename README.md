@@ -13,7 +13,7 @@ You will need to include:
 
 Optionally:
 
-* The JavaScript file `jquery.easing.js` for additional easing functions (see `easing` [option](#options))
+* The minified JavaScript file `jquery.easing.min.js` for additional easing functions (see `easing` [option](#options))
 
 ### Including Files
 
@@ -27,7 +27,7 @@ For example,
 <script src="jquery.snapScroll.min.js" charset="utf-8"></script>
 
 <!-- Additional easing file (optional) -->
-<script src="jquery.easing.js" charset="utf-8"></script>
+<script src="jquery.easing.min.js" charset="utf-8"></script>
 ```
 
 ### HTML Structure
@@ -107,7 +107,7 @@ $(document).ready(function() {
     * `swing`
     * `linear`
 
-    If you have included the `jquery.easing.js` file (see [Including Files](#including-files)), then you can use [additional easing functions](http://api.jqueryui.com/easings/).
+    If you have included the `jquery.easing.min.js` file (see [Including Files](#including-files)), then you can use [additional easing functions](http://api.jqueryui.com/easings/).
 
 * `element`: (default `'html'`) The element to scroll; usually the whole page.
 
