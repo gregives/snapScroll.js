@@ -4,6 +4,24 @@ An easy to use library to snap to elements when scrolling a website.
 
 <img src="./example/images/preview.gif" width="900">
 
+## Compatibility
+
+Supported browsers (versions to be added):
+
+* **Chrome**
+
+* **Firefox**
+
+* **Edge**
+
+* **Opera**
+
+* **Internet Explorer**
+
+[<img src="./example/images/browserstack.png" width="300">](http://www.browserstack.com/)
+
+Browser compatibility has been tested using [BrowserStack](http://www.browserstack.com/), huge thanks to them for supporting the project!
+
 ## How To Use
 
 You will need to include:
@@ -145,7 +163,7 @@ All methods should be called on the SnapScroll object.
 
 * `disable()`: Disable scroll points within element.
 
-* `isScrolling()`: Returns `true` is currently scrolling, `false` if not.
+* `isScrolling()`: Returns `true` if currently scrolling, `false` if not.
 
 For example,
 
