@@ -4,7 +4,7 @@ An easy to use library to snap to elements when scrolling a website.
 
 <img src="./example/images/preview.gif" width="900">
 
-## Usage
+## How To Use
 
 You will need to include:
 
@@ -13,21 +13,21 @@ You will need to include:
 
 Optionally:
 
-* [jQuery UI](https://jqueryui.com/) for additional easing functions (see `easing` [option](#options))
+* The JavaScript file `jquery.easing.js` for additional easing functions (see `easing` [option](#options))
 
 ### Including Files
 
 For example,
 
-```javascript
-// jQuery library
+```html
+<!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
 
-// jQuery UI (optional)
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" charset="utf-8"></script>
-
-// snapScroll JavaScript file
+<!-- snapScroll JavaScript file -->
 <script src="jquery.snapScroll.min.js" charset="utf-8"></script>
+
+<!-- Additional easing file (optional) -->
+<script src="jquery.easing.js" charset="utf-8"></script>
 ```
 
 ### HTML Structure
@@ -73,7 +73,7 @@ All you need to do is create a `SnapScroll` object inside a `$(document).ready` 
 ```javascript
 $(document).ready(function() {
   var ss = new SnapScroll();
-})
+});
 ```
 
 Optionally, you can pass the constructor custom options. A constructor with multiple options could look like so:
@@ -93,7 +93,7 @@ $(document).ready(function() {
     onLeave: function(currentPoint, targetPoint) {},
     onArrive: function(currentPoint, targetPoint) {}
   });
-})
+});
 ```
 
 ## Options
@@ -107,7 +107,7 @@ $(document).ready(function() {
     * `swing`
     * `linear`
 
-    If you have included the jQuery UI library (see [Including Files](#including-files)) then you can use [additional easing functions](http://api.jqueryui.com/easings/).
+    If you have included the `jquery.easing.js` file (see [Including Files](#including-files)), then you can use [additional easing functions](http://api.jqueryui.com/easings/).
 
 * `element`: (default `'html'`) The element to scroll; usually the whole page.
 
@@ -145,6 +145,8 @@ All methods should be called on the SnapScroll object.
 
 * `disable()`: Disable scroll points within element.
 
+* `isScrolling()`: Returns `true` is currently scrolling, `false` if not.
+
 For example,
 
 ```javascript
@@ -153,5 +155,5 @@ $(document).ready(function() {
 
   ss.scrollToPoint(3);
   ss.disable();
-})
+});
 ```

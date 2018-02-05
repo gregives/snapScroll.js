@@ -3,9 +3,6 @@
   <head>
     <title>snapScroll.js Example</title>
 
-    <!-- jQuery UI CSS-->
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-
     <!-- Just a font -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
@@ -34,27 +31,29 @@
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js" charset="utf-8"></script>
 
-    <!-- jQuery UI Javascript -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" charset="utf-8"></script>
-
-    <!-- scrollPoints.js -->
+    <!-- snapScroll JavaScript file -->
     <script src="../jquery.snapScroll.min.js" charset="utf-8"></script>
+
+    <!-- Additional easing file (optional) -->
+    <script src="../jquery.easing.js" charset="utf-8"></script>
 
     <!-- Your script -->
     <script type="text/javascript">
-      var ss = new SnapScroll({
-        arrowKeys: true,
-        duration: 900,
-        easing: 'easeOutBounce',
-        element: 'main',
-        ordered: true,
-        scrollBar: false,
-        onLeave: function(currentPoint, nextPoint) {
-          console.log("Leaving point " + currentPoint + ", going to point " + nextPoint + ".");
-        },
-        onArrive: function(prevPoint, currentPoint) {
-          console.log("I've arrived!");
-        }
+      $(document).ready(function() {
+        var ss = new SnapScroll({
+          arrowKeys: true,
+          duration: 900,
+          easing: 'easeOutBounce',
+          element: 'main',
+          ordered: true,
+          scrollBar: false,
+          onLeave: function(currentPoint, nextPoint) {
+            console.log("Leaving point " + currentPoint + ", going to point " + nextPoint + ".");
+          },
+          onArrive: function(prevPoint, currentPoint) {
+            console.log("I've arrived!");
+          }
+        });
       });
     </script>
   </body>

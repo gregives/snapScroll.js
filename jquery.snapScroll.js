@@ -13,14 +13,6 @@ function SnapScroll(options) {
     onArrive: function(prevPoint, currentPoint) {}
   }, options);
 
-  // Enable scrolling of element.
-  if (options.scrollBar) {
-    $(options.element).css('overflow-y', 'scroll');
-  } else {
-    // Hide scroll bar.
-    $(options.element).css('overflow-y', 'hidden');
-  }
-
   // Array of snap points within element.
   var snapPoints = $(options.element).find('[data-snap-point]');
 
@@ -39,8 +31,16 @@ function SnapScroll(options) {
     snapPoints.sort(compare);
   }
 
-  // Flag to avoid scrolling whilst already scrolling.
+  // Flag to indicate scrolling state.
   var scrolling = false;
+
+  /**
+   * Get scrolling state.
+   * @returns {boolean} Returns true if currently scrolling, false if not.
+   */
+  this.isScrolling = function() {
+    return scrolling;
+  }
 
   /**
    * Scroll to the previous snap point.
@@ -74,7 +74,7 @@ function SnapScroll(options) {
       var currentPoint = self.currentPoint();
       options.onLeave(currentPoint, targetPoint);
 
-      var elemHeight = $(options.element).height();
+      var elemHeight = $(window).height();
       var boundingRect = $(snapPoints[targetPoint]).get(0).getBoundingClientRect();
       var pointMiddle = (boundingRect.top + boundingRect.bottom) / 2;
       var middleOfElem = elemHeight / 2;
@@ -97,11 +97,11 @@ function SnapScroll(options) {
 
   /**
    * Get the index of the current snap point.
-   * @return {number} The index of the current snap point.
+   * @returns {number} The index of the current snap point.
    */
   this.currentPoint = function() {
     var currentPoint = -1;
-    var middleOfElem = $(options.element).height() / 2;
+    var middleOfElem = $(window).height() / 2;
 
     // Arbitrary large value.
     var minDiff = Math.pow(2, 32) - 1;
@@ -179,7 +179,20 @@ function SnapScroll(options) {
     }
   }
 
-  // Bind event handlers at start.
-  this.enable();
+  // Check options.
+  if ($.easing.hasOwnProperty(options.easing)) {
+    this.enable();
+
+    // Enable scrolling of element.
+    if (options.scrollBar) {
+      $(options.element).css('overflow-y', 'scroll');
+    } else {
+      // Hide scroll bar.
+      $(options.element).css('overflow-y', 'hidden');
+    }
+  } else {
+    // Throw error if easing function not found.
+    throw new Error("Easing function not found. If using an easing function other than 'swing' or 'linear', you must include the jquery.easing.js file. See https://github.com/gregives/snapScroll.js#usage" );
+  }
 
 }
