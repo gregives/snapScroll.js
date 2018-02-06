@@ -64,33 +64,42 @@ function SnapScroll(options) {
 
   /**
    * Scroll to a given snap point.
-   * @param {number} The index of the point to scroll to.
+   * @param {number} targetPoint - The index of the point to scroll to.
+   * @param {Object} newOptions - The (optional) new options.
    */
-  this.scrollToPoint = function(targetPoint) {
+  this.scrollToPoint = function(targetPoint, newOptions) {
     if (!scrolling) {
       // Set scrolling flag.
       scrolling = true;
 
       var currentPoint = self.currentPoint();
-      options.onLeave(currentPoint, targetPoint);
+
+      // Add new (optional) options.
+      newOptions = $.extend({}, options, newOptions);
+
+      // Don't scroll if onLeave returns false.
+      if (newOptions.onLeave(currentPoint, targetPoint) === false) {
+        scrolling = false;
+        return false;
+      }
 
       var elemHeight = $(window).height();
       var boundingRect = $(snapPoints[targetPoint]).get(0).getBoundingClientRect();
       var pointMiddle = (boundingRect.top + boundingRect.bottom) / 2;
       var middleOfElem = elemHeight / 2;
-      var scrollTop = $(options.element).scrollTop() + (pointMiddle - middleOfElem);
+      var scrollTop = $(newOptions.element).scrollTop() + (pointMiddle - middleOfElem);
 
       // Check bounds
-      var scrollHeight = $(options.element).get(0).scrollHeight;
+      var scrollHeight = $(newOptions.element).get(0).scrollHeight;
       scrollTop = scrollTop < middleOfElem ? 0 : scrollTop;
       scrollTop = scrollTop > scrollHeight - elemHeight ? scrollHeight - elemHeight : scrollTop;
 
       // Animate scroll top to point
-      $(options.element).animate({
+      $(newOptions.element).animate({
         scrollTop: scrollTop
-      }, options.duration, options.easing, function() {
+      }, newOptions.duration, newOptions.easing, function() {
         scrolling = false;
-        options.onArrive(currentPoint, targetPoint);
+        newOptions.onArrive(currentPoint, targetPoint);
       });
     }
   }

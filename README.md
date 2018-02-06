@@ -140,6 +140,8 @@ $(document).ready(function() {
     * `currentPoint`: Index of the current scroll point.
     * `targetPoint`: Index of the target/destination scroll point.
 
+    Returning `false` from the `onLeave` function will cancel the scroll before it takes place.
+
 * `onArrive(prevPoint, currentPoint)`: Called when arriving at a scroll point i.e. when the animation has finished.
 
     * `prevPoint`: Index of the previous scroll point.
@@ -153,11 +155,12 @@ All methods should be called on the SnapScroll object.
 
 * `scrollNext()`: Scroll to the next scroll point.
 
-* `scrollToPoint(targetPoint)`: Scroll to the given scroll point.
+* `scrollToPoint(targetPoint, newOptions)`: Scroll to the given scroll point.
 
     * `targetPoint`: Index of the target scroll point.
+    * `newOptions`: New options to override current options (**optional**).
 
-* `currentPoint()`: Gets the index of the current (nearest) scroll point.
+* `currentPoint()`: Gets the index of the nearest scroll point.
 
 * `enable()`: Enable scroll points within element (called automatically when SnapScroll object is created).
 
@@ -171,7 +174,10 @@ For example,
 $(document).ready(function() {
   var ss = new SnapScroll();
 
-  ss.scrollToPoint(3);
+  ss.scrollToPoint(3, {
+    duration: 1200,
+    easing: 'easeOutBounce'
+  });
   ss.disable();
 });
 ```
