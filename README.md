@@ -1,22 +1,26 @@
 # snapScroll.js
 
-An easy to use library to snap to elements when scrolling a website.
+An easy to use library to enable snap scrolling on your website. Simply choose which elements you want to snap to.
 
 <img src="./example/images/preview.gif" width="900">
 
 ## Compatibility
 
-Supported browsers (versions to be added):
+**All modern browsers are supported.** Browser compatibility:
 
-* **Chrome**
+* **Chrome**: &ge;  26
 
-* **Firefox**
+* **Firefox**: &ge; 21
 
-* **Edge**
+* **Edge**: &ge; 14*
 
-* **Opera**
+* **Opera**: &ge; 15
 
-* **Internet Explorer**
+* **Safari**: &ge; 6.2
+
+* **Internet Explorer**: Not supported
+
+\* There is a bug on Edge when using a precision touchpad.
 
 [<img src="./example/images/browserstack.png" width="300">](http://www.browserstack.com/)
 

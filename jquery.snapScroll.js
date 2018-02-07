@@ -162,7 +162,6 @@ function SnapScroll(options) {
       currentY = event.originalEvent.touches[0].clientY;
 
       lastY = currentY;
-      event.preventDefault();
     });
 
     // Detect the change in touch position.
