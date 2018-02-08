@@ -83,19 +83,22 @@ function SnapScroll(options) {
         return false;
       }
 
-      var elemHeight = $(window).height();
+      var elemHeight = newOptions.element === 'html' ? $(window).height() : $(newOptions.element).height();
       var boundingRect = $(snapPoints[targetPoint]).get(0).getBoundingClientRect();
       var pointMiddle = (boundingRect.top + boundingRect.bottom) / 2;
       var middleOfElem = elemHeight / 2;
-      var scrollTop = $(newOptions.element).scrollTop() + (pointMiddle - middleOfElem);
+      var currentScrollTop = newOptions.element === 'html' ? $(window).scrollTop() : $(newOptions.element).scrollTop();
+      var scrollTop = currentScrollTop + (pointMiddle - middleOfElem);
 
       // Check bounds
       var scrollHeight = $(newOptions.element).get(0).scrollHeight;
       scrollTop = scrollTop < middleOfElem ? 0 : scrollTop;
       scrollTop = scrollTop > scrollHeight - elemHeight ? scrollHeight - elemHeight : scrollTop;
 
+      var scrollElem = newOptions.element === 'html' ? $('html, body') : $(newOptions.element);
+
       // Animate scroll top to point
-      $(newOptions.element).animate({
+      $(scrollElem).animate({
         scrollTop: scrollTop
       }, newOptions.duration, newOptions.easing, function() {
         scrolling = false;
@@ -187,20 +190,14 @@ function SnapScroll(options) {
     }
   }
 
-  // Check options.
-  if ($.easing.hasOwnProperty(options.easing)) {
-    this.enable();
+  this.enable();
 
-    // Enable scrolling of element.
-    if (options.scrollBar) {
-      $(options.element).css('overflow-y', 'scroll');
-    } else {
-      // Hide scroll bar.
-      $(options.element).css('overflow-y', 'hidden');
-    }
+  // Enable scrolling of element.
+  if (options.scrollBar) {
+    $(options.element).css('overflow-y', 'scroll');
   } else {
-    // Throw error if easing function not found.
-    throw new Error("Easing function not found. If using an easing function other than 'swing' or 'linear', you must include the jquery.easing.js file. See https://github.com/gregives/snapScroll.js#usage" );
+    // Hide scroll bar.
+    $(options.element).css('overflow-y', 'hidden');
   }
 
 }

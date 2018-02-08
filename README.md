@@ -118,7 +118,7 @@ $(document).ready(function() {
 });
 ```
 
-## Options
+### Options
 
 * `arrowKeys`: (default `false`) When set to `true`, keyboard arrow keys can be used to navigate between scroll points. If set to `true` for more than one element, will scroll both.
 
@@ -137,7 +137,7 @@ $(document).ready(function() {
 
 * `scrollBar`: (default `true`) When set to `false`, the scroll bar of the element will be hidden.
 
-## Callbacks
+### Callbacks
 
 * `onLeave(currentPoint, nextPoint)`: Called when leaving a scroll point i.e. when the animation is starting.
 
@@ -151,7 +151,7 @@ $(document).ready(function() {
     * `prevPoint`: Index of the previous scroll point.
     * `currentPoint`: Index of the new current scroll point.
 
-## Methods
+### Methods
 
 All methods should be called on the SnapScroll object.
 
@@ -185,3 +185,7 @@ $(document).ready(function() {
   ss.disable();
 });
 ```
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
