@@ -36,14 +36,14 @@ All you need to do is add the `data-snap-point` attribute to the elements you wi
 
 ```html
 <body>
-  <div data-scroll-point></div>
+  <div data-snap-point></div>
   <section>
-    <article data-scroll-point></article>
-    <article data-scroll-point>
+    <article data-snap-point></article>
+    <article data-snap-point>
       <p></p>
     </article>
     <article></article>
-    <article data-scroll-point></article>
+    <article data-snap-point></article>
   </section>
   ...
 ```
@@ -52,14 +52,14 @@ It is also possible to scroll to points in a different order than in the markup.
 
 ```html
 <body>
-  <div data-scroll-point="1"></div>
+  <div data-snap-point="1"></div>
   <section>
-    <article data-scroll-point="4"></article>
-    <article data-scroll-point="2">
+    <article data-snap-point="4"></article>
+    <article data-snap-point="2">
       <p></p>
     </article>
     <article></article>
-    <article data-scroll-point="3"></article>
+    <article data-snap-point="3"></article>
   </section>
   ...
 ```
