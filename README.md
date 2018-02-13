@@ -1,32 +1,12 @@
 # snapScroll.js
 
-An easy to use library to enable snap scrolling on your website. Simply choose which elements you want to snap to.
+An easy-to-use, lightweight jQuery plugin to enable snap scrolling on your website. Simply choose which elements you want to snap to.
 
 <img src="./example/images/preview.gif" width="900">
 
-## Compatibility
+## 1. Getting Started
 
-**All modern browsers are supported.** Browser compatibility:
-
-* **Chrome**: &ge;  26
-
-* **Firefox**: &ge; 21
-
-* **Edge**: &ge; 14*
-
-* **Opera**: &ge; 15
-
-* **Safari**: &ge; 6.2
-
-* **Internet Explorer**: Not supported
-
-\* There is a bug on Edge when using a precision touchpad.
-
-[<img src="./example/images/browserstack.png" width="300">](http://www.browserstack.com/)
-
-Browser compatibility has been tested using [BrowserStack](http://www.browserstack.com/), huge thanks to them for supporting the project!
-
-## How To Use
+#### 1.1. Including Files
 
 You will need to include:
 
@@ -35,11 +15,9 @@ You will need to include:
 
 Optionally:
 
-* The minified JavaScript file `jquery.easing.min.js` for additional easing functions (see `easing` [option](#options))
+* The minified JavaScript file `jquery.easing.min.js` for additional easing functions (see `easing` [option](#21-options))
 
-### Including Files
-
-For example,
+Include these files just before your closing `</body>` tag.
 
 ```html
 <!-- jQuery -->
@@ -52,7 +30,7 @@ For example,
 <script src="jquery.easing.min.js" charset="utf-8"></script>
 ```
 
-### HTML Structure
+#### 1.2. HTML Structure
 
 All you need to do is add the `data-snap-point` attribute to the elements you wish to scroll to. For example,
 
@@ -86,106 +64,199 @@ It is also possible to scroll to points in a different order than in the markup.
   ...
 ```
 
-**Note**: the indices can start at any value, and do not need to be consecutive values. **Be cautious** when using unordered snap points, the user experience may be terrible.
+**Note**: to avoid unexpected results, indices should be zero-indexed and hold consecutive values. **Be cautious** when using unordered snap points, the user experience may be terrible.
 
-### Initialisation
+#### 1.3. Initialisation
 
-All you need to do is create a `SnapScroll` object inside a `$(document).ready` function:
-
-```javascript
-$(document).ready(function() {
-  var ss = new SnapScroll();
-});
-```
-
-Optionally, you can pass the constructor custom options. A constructor with multiple options could look like so:
+Inside a `$(document).ready` function, call the `snapScroll` function on a jQuery-wrapped element. To scroll the whole page (the most common case), the only code you need is
 
 ```javascript
-$(document).ready(function() {
-  var ss = new SnapScroll({
-    // Options
-    arrowKeys: false,
-    duration: 600,
-    easing: 'swing',
-    element: 'html',
-    ordered: true,
-    scrollBar: true,
-
-    // Callbacks
-    onLeave: function(currentPoint, targetPoint) {},
-    onArrive: function(currentPoint, targetPoint) {}
-  });
-});
+$(document).ready(function () {
+  $(window).snapScroll()
+})
 ```
 
-### Options
+Optionally, you can pass custom options to the `snapScroll` function.
 
-* `arrowKeys`: (default `false`) When set to `true`, keyboard arrow keys can be used to navigate between scroll points. If set to `true` for more than one element, will scroll both.
+```javascript
+$(document).ready(function () {
+  $(window).snapScroll({
+    arrowKeys: true,
+    duration: 900,
+    easing: 'easeInOutCubic',
+    scrollBar: false,
+    onLeave: function (currentPoint, targetPoint) {
+      console.log('Ahhh, where am I going?!')
+    }
+  })
+})
+```
 
-* `duration`: (default `600`) The duration in milliseconds of the animation between scroll points.
+The `snapScroll` function can be called on any element with a scroll height greater than its height (i.e. with a scrollbar).
 
-* `easing`: (default `'swing'`) The transition effect of the scroll animation. The easing functions included with jQuery are:
+```javascript
+$(document).ready(function () {
+  $('#someElement').snapScroll({
+    duration: 1200
+  })
+})
+```
+
+## 2. Configuration
+
+#### 2.1. Options
+
+* `arrowKeys` (default `false`): When set to `true`, keyboard arrow keys can be used to navigate between snap points. If set to `true` for more than one container, all elements will scroll.
+
+* `duration` (default `600`): The duration in milliseconds of the animation between snap points.
+
+* `easing` (default `'swing'`): The transition effect of the scroll animation. The easing functions included with jQuery are:
 
     * `swing`
     * `linear`
 
-    If you have included the `jquery.easing.min.js` file (see [Including Files](#including-files)), then you can use [additional easing functions](http://api.jqueryui.com/easings/).
+    If you have included the `jquery.easing.min.js` file (see [Including Files](#11-including-files)), then you can use [additional easing functions](http://api.jqueryui.com/easings/).
 
-* `element`: (default `'html'`) The element to scroll; usually the whole page.
+* `ordered` (default `true`): Defines if the snap points should be scrolled through in their markup order, or if a separate order has been specified.
 
-* `ordered`: (default `true`) Defines if the snap points should be scrolled to in their markup order, or if a separate order has been specified.
+* `scrollBar` (default `true`): When set to `false`, the scroll bar of the container element will be hidden.
 
-* `scrollBar`: (default `true`) When set to `false`, the scroll bar of the element will be hidden.
+#### 2.2. Callbacks
 
-### Callbacks
+* `onLeave(currentPoint, nextPoint)`: Called when leaving a snap point i.e. when the animation is starting.
 
-* `onLeave(currentPoint, nextPoint)`: Called when leaving a scroll point i.e. when the animation is starting.
+    * `currentPoint`: Index of the current snap point.
+    * `nextPoint`: Index of the target/destination snap point.
 
-    * `currentPoint`: Index of the current scroll point.
-    * `targetPoint`: Index of the target/destination scroll point.
+    From the `onLeave` function, you can return an object of custom options which will override the options you passed snapScroll on initialisation. For example,
 
-    Returning `false` from the `onLeave` function will cancel the scroll before it takes place.
+    ```javascript
+    $(document).ready(function () {
+      $(window).snapScroll({
+        onLeave: function (currentPoint, nextPoint) {
+          // If scrolling between points 3 and 4.
+          if (currentPoint === 3 && nextPoint === 4) {
+            // Make the animation really slow.
+            return {
+              duration: 4000
+            }
+          }
+        }
+      })
+    })
+    ```
 
-* `onArrive(prevPoint, currentPoint)`: Called when arriving at a scroll point i.e. when the animation has finished.
+    It is also possible to cancel the animation by using `cancel: true`:
 
-    * `prevPoint`: Index of the previous scroll point.
-    * `currentPoint`: Index of the new current scroll point.
+    ```javascript
+    $(document).ready(function () {
+      $(window).snapScroll({
+        onLeave: function (currentPoint, nextPoint) {
+          // Cancel if scrolling to point 5.
+          if (nextPoint === 5) {
+            return {
+              cancel: true
+            }
+          }
+        }
+      })
+    })
+    ```
 
-### Methods
+* `onArrive(prevPoint, currentPoint)`: Called when arriving at a snap point i.e. when the animation has finished.
 
-All methods should be called on the SnapScroll object.
+    * `prevPoint`: Index of the previous snap point.
+    * `currentPoint`: Index of the new current snap point.
 
-* `scrollPrev()`: Scroll to the previous scroll point.
+#### 2.3. Methods
 
-* `scrollNext()`: Scroll to the next scroll point.
+All methods should be called on the SnapScroll object, returned by the call to `snapScroll`.
 
-* `scrollToPoint(targetPoint, newOptions)`: Scroll to the given scroll point.
+* `scrollPrev()`: Scroll to the previous snap point.
 
-    * `targetPoint`: Index of the target scroll point.
+* `scrollNext()`: Scroll to the next snap point.
+
+* `scrollToPoint(targetPoint, newOptions)`: Scroll to the given snap point.
+
+    * `targetPoint`: Index of the target snap point.
     * `newOptions`: New options to override current options (**optional**).
 
-* `currentPoint()`: Gets the index of the nearest scroll point.
+* `currentPoint()`: Gets the index of the nearest snap point.
 
-* `enable()`: Enable scroll points within element (called automatically when SnapScroll object is created).
+* `enable()`: Enable snap scrolling within the element (called on initialisation).
 
-* `disable()`: Disable scroll points within element.
-
-* `isScrolling()`: Returns `true` if currently scrolling, `false` if not.
-
-For example,
+* `disable()`: Disable snap scrolling within the element.
 
 ```javascript
-$(document).ready(function() {
-  var ss = new SnapScroll();
+$(document).ready(function () {
+  var ss = $(window).snapScroll()
 
   ss.scrollToPoint(3, {
     duration: 1200,
     easing: 'easeOutBounce'
-  });
-  ss.disable();
-});
+  })
+  ss.disable()
+})
 ```
 
-## License
+#### 2.4. Variables
+
+Similarly, two variables are exposed via the SnapScroll object.
+
+* `scrolling` (boolean): Flag to indicate the scrolling state.
+
+* `snapPoints` (object): Array of the snap points.
+
+```javascript
+$(document).ready(function () {
+  var ss = $(window).snapScroll()
+
+  // Is the element scrolling?
+  console.log(ss.scrolling)
+
+  // Inner HTML of first snap point.
+  console.log(ss.snapPoints[0].innerHTML)
+})
+```
+
+#### 2.5. Default Options
+
+The global defaults for snapScroll can be overridden using
+
+```javascript
+$(document).ready(function () {
+  $(window).snapScroll()
+
+  // Subsequent calls to snapScroll will use new defaults.
+  SnapScroll.defaults = {
+    duration: 900,
+    scrollBar: false
+  }
+})
+```
+
+## 3. Compatibility
+
+**All modern browsers are supported.**
+
+* **Chrome**: &ge;  26
+
+* **Firefox**: &ge; 21
+
+* **Edge**: &ge; 14*
+
+* **Opera**: &ge; 15
+
+* **Safari**: &ge; 6.2
+
+* **Internet Explorer**: Not supported
+
+\* Edge does not fire the 'wheel' event when scrolling with the 2-finger gesture on a Precision Touchpad. See issue [here](https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7134034/).
+
+[<img src="./example/images/browserstack.png" width="300">](http://www.browserstack.com/)
+
+Browser compatibility has been tested using [BrowserStack](http://www.browserstack.com/), huge thanks to them for supporting the project!
+
+## 4. License
 
 This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
