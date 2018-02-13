@@ -219,22 +219,6 @@ $(document).ready(function () {
 })
 ```
 
-#### 2.5. Default Options
-
-The global defaults for snapScroll can be overridden using
-
-```javascript
-$(document).ready(function () {
-  $(window).snapScroll()
-
-  // Subsequent calls to snapScroll will use new defaults.
-  SnapScroll.defaults = {
-    duration: 900,
-    scrollBar: false
-  }
-})
-```
-
 ## 3. Compatibility
 
 **All modern browsers are supported.**

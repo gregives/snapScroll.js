@@ -11,7 +11,7 @@
    * @param options - The scrolling options.
    */
   function SnapScroll (elem, options) {
-    this.elem = elem
+    this.elem = elem[0]
     this.options = options
   }
 
@@ -223,14 +223,8 @@
     }
   }
 
-  // Defaults can be globally overridden.
-  SnapScroll.defaults = SnapScroll.prototype.defaults
-
   // jQuery plugin function.
   $.fn.snapScroll = function (options) {
     return new SnapScroll(this, options).init()
   }
-
-  // Expose SnapScroll.
-  window.SnapScroll = SnapScroll
 })(jQuery, window, document)
