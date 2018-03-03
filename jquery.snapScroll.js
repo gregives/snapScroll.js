@@ -42,9 +42,9 @@
 
       // If unordered, sort snap points by attribute.
       if (!this.config.ordered) {
-        var compare = function (a, b) {
-          var aVal = $(a).data('snapPoint')
-          var bVal = $(b).data('snapPoint')
+        const compare = function (a, b) {
+          const aVal = $(a).data('snapPoint')
+          const bVal = $(b).data('snapPoint')
           if (aVal < bVal) {
             return -1
           }
@@ -73,7 +73,7 @@
      * Scroll to the previous snap point.
      */
     scrollPrev: function () {
-      var currentPoint = this.currentPoint()
+      const currentPoint = this.currentPoint()
       if (currentPoint > 0) {
         this.scrollToPoint(currentPoint - 1)
       }
@@ -83,7 +83,7 @@
      * Scroll to the next snap point.
      */
     scrollNext: function () {
-      var currentPoint = this.currentPoint()
+      const currentPoint = this.currentPoint()
       if (currentPoint < this.snapPoints.length - 1) {
         this.scrollToPoint(currentPoint + 1)
       }
@@ -94,18 +94,18 @@
      * @returns {number} The index of the current snap point.
      */
     currentPoint: function () {
-      var currentPoint = -1
-      var middleOfElem = $(this.elem).height() / 2
+      let currentPoint = -1
+      const middleOfElem = $(this.elem).height() / 2
 
       // Arbitrary large value.
-      var minDiff = Infinity
+      let minDiff = Infinity
 
       this.snapPoints.each(function (index) {
-        var boundingRect = this.getBoundingClientRect()
+        const boundingRect = this.getBoundingClientRect()
 
         // Find snap point closest to middle of element.
-        var pointMiddle = (boundingRect.top + boundingRect.bottom) / 2
-        var currentDiff = Math.abs(pointMiddle - middleOfElem)
+        const pointMiddle = (boundingRect.top + boundingRect.bottom) / 2
+        const currentDiff = Math.abs(pointMiddle - middleOfElem)
         if (currentDiff < minDiff) {
           currentPoint = index
           minDiff = currentDiff
@@ -122,7 +122,7 @@
      */
     scrollToPoint: function (targetPoint, newOptions) {
       if (!this.scrolling) {
-        var currentPoint = this.currentPoint()
+        const currentPoint = this.currentPoint()
 
         // Add new (optional) options.
         newOptions = $.extend({}, this.config, newOptions, this.config.onLeave(currentPoint, targetPoint))
@@ -135,22 +135,22 @@
         // Set scrolling flag.
         this.scrolling = true
 
-        var elemHeight = $(this.elem).height()
-        var boundingRect = this.snapPoints[targetPoint].getBoundingClientRect()
-        var pointMiddle = (boundingRect.top + boundingRect.bottom) / 2
-        var middleOfElem = elemHeight / 2
-        var currentScrollTop = $(this.elem).scrollTop()
-        var scrollTop = currentScrollTop + (pointMiddle - middleOfElem)
+        const elemHeight = $(this.elem).height()
+        const boundingRect = this.snapPoints[targetPoint].getBoundingClientRect()
+        const pointMiddle = (boundingRect.top + boundingRect.bottom) / 2
+        const middleOfElem = elemHeight / 2
+        const currentScrollTop = $(this.elem).scrollTop()
+        let scrollTop = currentScrollTop + (pointMiddle - middleOfElem)
 
         // Check bounds of scrolling element.
-        var scrollHeight = this.elem === window ? document.scrollHeight : this.elem.scrollHeight
+        const scrollHeight = this.elem === window ? document.scrollHeight : this.elem.scrollHeight
         scrollTop = scrollTop < middleOfElem ? 0 : scrollTop
         scrollTop = scrollTop > scrollHeight - elemHeight ? scrollHeight - elemHeight : scrollTop
 
-        var scrollElem = this.elem === window ? 'html, body' : this.elem
+        const scrollElem = this.elem === window ? 'html, body' : this.elem
 
         // Reference to SnapScroll.
-        var self = this
+        const self = this
 
         // Animate scroll top to point.
         $(scrollElem).animate({
@@ -167,20 +167,20 @@
      */
     enable: function () {
       // Reference to SnapScroll.
-      var self = this
+      const self = this
 
       // Detect the change in mouse wheel.
       $(this.elem).on('wheel mousewheel DOMMouseScroll', function (e) {
-        var oE = e.originalEvent
-        var delta = -oE.deltaY || oE.wheelDelta || -oE.detail
+        const oE = e.originalEvent
+        const delta = -oE.deltaY || oE.wheelDelta || -oE.detail
         delta > 0 ? self.scrollPrev() : self.scrollNext()
 
         e.preventDefault()
       })
 
       // Touch positions
-      var lastY
-      var currentY
+      let lastY
+      let currentY
 
       // Record the position of first touch.
       $(this.elem).on('touchstart', function (e) {
@@ -192,7 +192,7 @@
       // Detect the change in touch position.
       $(this.elem).on('touchmove', function (e) {
         currentY = e.originalEvent.touches[0].clientY
-        var delta = currentY - lastY
+        const delta = currentY - lastY
         delta > 0 ? self.scrollPrev() : self.scrollNext()
 
         lastY = currentY
@@ -202,7 +202,7 @@
       if (this.config) {
         // Detect arrow key presses.
         $(window).on('keydown', function (e) {
-          var key = e.which
+          const key = e.which
           if (key === 38) {
             self.scrollPrev()
           } else if (key === 40) {
@@ -227,4 +227,4 @@
   $.fn.snapScroll = function (options) {
     return new SnapScroll(this, options).init()
   }
-})(jQuery, window, document)
+})(window.jQuery, window, document)
