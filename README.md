@@ -1,8 +1,6 @@
 # snapScroll.js
 
-An easy-to-use, lightweight jQuery plugin to enable snap scrolling on your website. Simply choose which elements you want to snap to.
-
-<img src="./example/images/preview.gif" width="900">
+An easy-to-use, lightweight jQuery plugin to enable snap scrolling on your website. Simply choose which elements you want to snap to. See a live preview [here](https://gregives.co.uk/snapscroll/).
 
 ## 1. Getting Started
 
